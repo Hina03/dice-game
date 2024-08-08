@@ -28,7 +28,7 @@ function Saikoro(){
         for (let i = 0; i<3; i++){
             let saikoro = Math.floor( Math.random() *6) +1; //ランダムで１～６の数字を作る
             results.push(saikoro);
-            images.push(saikoro + ".jpg");
+            images.push("dice/"+ saikoro + ".jpg");
         }
 
         //結果の表示
@@ -66,7 +66,7 @@ function SaikoroNew(){
         for (let i = 0; i<3; i++){
             let saikoro = Math.floor( Math.random() *6) +1; //ランダムで１～６の数字を作る
             results.push(saikoro);
-             images.push(saikoro + ".jpg");
+             images.push("dice/"+ saikoro + ".jpg");
         }
 
         //結果の表示
@@ -92,6 +92,14 @@ function SaikoroNew(){
         }
     }
 }
+
+if (saikoroCount >= maxSaikoroCount) {
+    document.getElementById("saikoroButton").disabled = true;
+}
+if (saikoroCountNew >= maxSaikoroCountNew) {
+    document.getElementById("saikoroButtonNew").disabled = true;
+}
+
 
 
 function 特殊役(array,elements){
