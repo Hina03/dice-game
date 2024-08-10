@@ -93,6 +93,13 @@ function SaikoroNew(){
     }
 }
 
+if (saikoroCount >= maxSaikoroCount) {
+    document.getElementById("saikoroButton").disabled = true;
+}
+if (saikoroCountNew >= maxSaikoroCountNew) {
+    document.getElementById("saikoroButtonNew").disabled = true;
+}
+
 
 function 特殊役(array,elements){
     return elements.every(elements => array.includes(elements));
@@ -233,7 +240,7 @@ function 勝敗判定(){
 }
 
 function resetGame(){
-    
+
 }
 
 
