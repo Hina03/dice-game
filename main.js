@@ -93,14 +93,6 @@ function SaikoroNew(){
     }
 }
 
-if (saikoroCount >= maxSaikoroCount) {
-    document.getElementById("saikoroButton").disabled = true;
-}
-if (saikoroCountNew >= maxSaikoroCountNew) {
-    document.getElementById("saikoroButtonNew").disabled = true;
-}
-
-
 
 function 特殊役(array,elements){
     return elements.every(elements => array.includes(elements));
@@ -180,78 +172,68 @@ function 勝敗判定(){
             if(childValue == 14){   //ピンゾロ
                 childGold += betAmount * 10;
                 parentGold -= betAmount * 10;
-                document.getElementById("result").innerHTML = "子の勝ち";
             } else if (childValue == 13 || childValue == 12 || childValue == 11 || childValue == 10 || childValue == 9){    //アラシ
                 childGold += betAmount * 6;
                 parentGold -= betAmount * 6;
-                document.getElementById("result").innerHTML = "子の勝ち";
             } else if(childValue == 8){    //シゴロ
                 childGold += betAmount * 4;
                 parentGold -= betAmount * 4;
-                document.getElementById("result").innerHTML = "子の勝ち";
             } else {    //ヒフミと出目
                 childGold += betAmount * 2;
                 parentGold -= betAmount * 2;
-                document.getElementById("result").innerHTML = "子の勝ち";
             }
         } else if(childValue == 14){   //ピンゾロ
             childGold += betAmount * 5;
             parentGold -= betAmount * 5;
-            document.getElementById("result").innerHTML = "子の勝ち";
         } else if (childValue == 13 || childValue == 12 || childValue == 11 || childValue == 10 || childValue == 9){    //アラシ
             childGold += betAmount * 3;
             parentGold -= betAmount * 3;
-            document.getElementById("result").innerHTML = "子の勝ち";
         } else if(childValue == 8){    //シゴロ
             childGold += betAmount * 2;
             parentGold -= betAmount * 2;
-            document.getElementById("result").innerHTML = "子の勝ち";
         } else {
             childGold += betAmount;
             parentGold -= betAmount;
-            document.getElementById("result").innerHTML = "子の勝ち";
         }
+        document.getElementById("result").innerHTML = "子の勝ち";
     } else { //親の勝ち
         if(childValue == 0){    //子がヒフミ
             if(parentValue == 14){  //親ピンゾロ
                 childGold -= betAmount * 10;
                 parentGold += betAmount * 10;
-                document.getElementById("result").innerHTML = "親の勝ち";
             } else if(parentValue == 13 || parentValue == 12 || parentValue == 11 || parentValue == 10 ||parentValue == 9){    //アラシ
                 childGold -= betAmount * 6;
                 parentGold += betAmount * 6;
-                document.getElementById("result").innerHTML = "親の勝ち";
             } else if(parentValue == 8){    //シゴロ
                 childGold -= betAmount * 4;
                 parentGold += betAmount * 4;
-                document.getElementById("result").innerHTML = "親の勝ち";
             } else{     //ヒフミと出目
                 childGold -= betAmount * 2;
                 parentGold += betAmount * 2;
-                document.getElementById("result").innerHTML = "親の勝ち";
             }
         } else if(parentValue == 14){  //ヒフミ無し親ピンゾロ
             childGold -= betAmount * 5;
             parentGold += betAmount * 5;
-            document.getElementById("result").innerHTML = "親の勝ち";
         } else if(parentValue == 13 || parentValue == 12 || parentValue == 11 || parentValue == 10 ||parentValue == 9){    //アラシ
             childGold -= betAmount * 3;
             parentGold += betAmount * 3;
-            document.getElementById("result").innerHTML = "親の勝ち";
         } else if(parentValue == 8){    //シゴロ
             childGold -= betAmount * 2;
             parentGold += betAmount * 2;
-            document.getElementById("result").innerHTML = "親の勝ち";
         } else{     //出目
             childGold -= betAmount;
             parentGold += betAmount;
-            document.getElementById("result").innerHTML = "親の勝ち";
         }
+        document.getElementById("result").innerHTML = "親の勝ち";
     }
 
     //所持金の更新
     document.getElementById("childGold").innerHTML = `所持金: ${childGold}`;
     document.getElementById("parentGold").innerHTML = `所持金: ${parentGold}`;
+}
+
+function resetGame(){
+    
 }
 
 

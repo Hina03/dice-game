@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +20,7 @@
 
     <h2>ベット</h2>
         <p> <!--valueは初期値-->
-            ベット: <input type="number" id="betAmount" value="100" min="1">
+            ゼニー: <input type="number" id="betAmount" value="100" min="1">
         </p>
 
     <h1>親</h1>
@@ -37,6 +36,8 @@
     <p id="parentGold">ゼニー: 1000</p>
     <p id="result"></p>
 
+    <p><button id="resetButton" onclick="resetGame();" disabled>振りなおす</button></p>
+    
     <p><input type="button" value="リセット" onclick="window.location.reload()"></p>
 
     <script src="main.js"></script>
