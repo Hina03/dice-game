@@ -81,14 +81,15 @@ function SaikoroNew(){
         document.getElementById("yakuNew").innerHTML = "役:"+yaku;  
 
         //役が出るか、3回振ってボタンを無効化
-        if(yaku !== "役無し" || saikoroCount >= maxSaikoroCount){
+        if(yaku !== "役無し" || saikoroCountNew >= maxSaikoroCountNew){
             document.getElementById("saikoroButtonNew").disabled = true;
             ParentSaikoroDone = true;
         }
-    
+        
         //勝敗判定
         if(ChildSaikoroDone && ParentSaikoroDone ){
             勝敗判定();
+            document.getElementById("resetButton").disabled = false;
         }
     }
 }
@@ -240,6 +241,25 @@ function 勝敗判定(){
 }
 
 function resetGame(){
+    //振った回数をリセット
+    saikoroCount = 0;
+    saikoroCountNew = 0;
+    //ボタンの無効を無効化
+    ChildSaikoroDone = false;
+    ParentSaikoroDone = false;
+
+    
+    document.getElementById("saikoroButton").disabled = false;  //子のボタンを有効化
+    document.getElementById("saikoroButtonNew").disabled = true;    //親のボタンを無効化
+    document.getElementById("resetButton").disabled = true;     //リセットボタンを無効化
+
+    document.getElementById("kekka").innerHTML = "";
+    document.getElementById("yaku").innerHTML = "";
+    document.getElementById("counter").innerHTML = "";
+    document.getElementById("kekkaNew").innerHTML = "";
+    document.getElementById("yakuNew").innerHTML = "";
+    document.getElementById("counterNew").innerHTML = "";
+    document.getElementById("result").innerHTML = "";
 
 }
 
