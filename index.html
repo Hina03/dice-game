@@ -19,6 +19,15 @@
     <p id="childGold">ゼニー: 1000</p>
     <p id="bet">ベット</p>
 
+    <h2>子の人数</h2>
+    <p>
+        <button onclick="addChild()">子を増やす</button>
+        <button onclick="removeChild()">子を減らす</button>
+    </p>
+    <div id="childContainer">
+        <!--ここに子が追加される-->
+    </div>
+
     <h2>ベット</h2>
         <p> <!--valueは初期値-->
             ゼニー: <input type="number" id="betAmount" value="100" min="1">
