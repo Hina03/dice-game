@@ -7,11 +7,50 @@ const maxSaikoroCountNew = 3;
 let ChildSaikoroDone = false;   //子と親が振り終わったかどうか
 let ParentSaikoroDone = false;
 
-let childGold = 1000
-let parentGold = 1000
+let childGold = 1000;
+let parentGold = 1000;
 
-let beforeChildGold = childGold
-let beforeParentGold = parentGold
+let beforeChildGold = childGold;
+let beforeParentGold = parentGold;
+
+let childCount = 1;
+
+function addChild(){
+    childCount++;
+
+    const childDiv = document.createElement('div');
+    childDiv.id = `child-${childCount}`;
+    childDiv.innerHTML = `
+         <h2>子 ${childCount}</h2>
+        <p>
+            <img id="sainome${childCount * 3 - 2}" src="dice/1.jpg" width="50" height="50">
+            <img id="sainome${childCount * 3 - 1}" src="dice/1.jpg" width="50" height="50">
+            <img id="sainome${childCount * 3}" src="dice/1.jpg" width="50" height="50">
+        </p>
+        <p><button id="saikoroButton${childCount}" onclick="Saikoro(${childCount});">サイコロを振る</button></p>
+        <p id="kekka${childCount}"></p>
+        <p id="yaku${childCount}"></p>
+        <p id="counter${childCount}"></p>
+        <p id="childGold${childCount}">ゼニー: 1000</p>
+        <p id="bet${childCount}">ベット</p>
+        <h2>ベット</h2>
+        <p>ゼニー: <input type="number" id="betAmount${childCount}" value="100" min="1"></p>
+    `;
+
+    //子を<id="childContainer">に追加
+    document.getElementById('childContainer').appendChild(childDiv);
+}
+
+function deleteChild(){
+    if (childCount === 0) return;
+
+    const childDiv = document.getElementById(`child-${childCount}`);
+    if (childDiv) {
+        childDiv.parentNode.removeChild(childDiv);  // 親ノードから削除する
+    }
+
+    childCount--;
+}
 
 function getBetAmount(){
     //賭け金の取得
