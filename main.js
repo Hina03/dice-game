@@ -7,8 +7,8 @@ const maxSaikoroCountNew = 3;
 let ChildSaikoroDone = false;   //子と親が振り終わったかどうか
 let ParentSaikoroDone = false;
 
-let childGold = 1000;
-let parentGold = 1000;
+let childGold = 1000;;
+let parentGold = 1000;;
 
 let beforeChildGold = childGold;
 let beforeParentGold = parentGold;
