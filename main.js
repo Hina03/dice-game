@@ -13,7 +13,7 @@ let parentGold = 1000;;
 let beforeChildGold = childGold;
 let beforeParentGold = parentGold;
 
-let childCount = 1;
+let childCount = 0;
 
 function addChild(){
     childCount++;
@@ -21,20 +21,21 @@ function addChild(){
     const childDiv = document.createElement('div');
     childDiv.id = `child-${childCount}`;
     childDiv.innerHTML = `
-         <h2>子 ${childCount}</h2>
-        <p>
-            <img id="sainome${childCount * 3 - 2}" src="dice/1.jpg" width="50" height="50">
-            <img id="sainome${childCount * 3 - 1}" src="dice/1.jpg" width="50" height="50">
-            <img id="sainome${childCount * 3}" src="dice/1.jpg" width="50" height="50">
-        </p>
-        <p><button id="saikoroButton${childCount}" onclick="Saikoro(${childCount});">サイコロを振る</button></p>
-        <p id="kekka${childCount}"></p>
-        <p id="yaku${childCount}"></p>
-        <p id="counter${childCount}"></p>
-        <p id="childGold${childCount}">ゼニー: 1000</p>
-        <p id="bet${childCount}">ベット</p>
+         <h1>子 ${childCount}</h1>
+            <p>
+                <img id="sainome${childCount * 3 - 2}" src="dice/1.jpg" width="50" height="50">
+                <img id="sainome${childCount * 3 - 1}" src="dice/1.jpg" width="50" height="50">
+                <img id="sainome${childCount * 3}" src="dice/1.jpg" width="50" height="50">
+            </p>
+            <p><button id="saikoroButton${childCount}" onclick="Saikoro(${childCount});">サイコロを振る</button></p>
+            <p id="kekka${childCount}"></p>
+            <p id="yaku${childCount}"></p>
+            <p id="counter${childCount}"></p>
+            <p id="childGold${childCount}">ゼニー: 1000</p>
+            <p id="bet${childCount}">ベット</p>
+            
         <h2>ベット</h2>
-        <p>ゼニー: <input type="number" id="betAmount${childCount}" value="100" min="1"></p>
+            <p>ゼニー: <input type="number" id="betAmount${childCount}" value="100" min="1"></p>
     `;
 
     //子を<id="childContainer">に追加
@@ -46,7 +47,7 @@ function deleteChild(){
 
     const childDiv = document.getElementById(`child-${childCount}`);
     if (childDiv) {
-        childDiv.parentNode.removeChild(childDiv);  // 親ノードから削除する
+        childDiv.remove();  // 親ノードから削除する
     }
 
     childCount--;
@@ -54,13 +55,13 @@ function deleteChild(){
 
 function getBetAmount(){
     //賭け金の取得
-    let betAmount = parseInt(document.getElementById("betAmount").value);
+    let betAmount = parseInt(document.getElementById(`betAmount${childCount}`).value);
     //賭け金が無効な場合（負の値とか）の処理
     return isNaN(betAmount) || betAmount <= 0 ? 100 :betAmount;
 }
 
 //子のサイコロ
-function Saikoro(){
+function Saikoro(childId){
     if(saikoroCount < maxSaikoroCount){
         saikoroCount++;
         let results = [];
@@ -74,19 +75,19 @@ function Saikoro(){
         }
 
         //結果の表示
-        document.getElementById("kekka").innerHTML = `サイコロの結果: ${results.join(",")}`;
-        document.getElementById("sainome1").src = images[0];
-        document.getElementById("sainome2").src = images[1];
-        document.getElementById("sainome3").src = images[2];
-        document.getElementById("counter").innerHTML = saikoroCount+"回目"
+        document.getElementById(`kekka${childId}`).innerHTML = `サイコロの結果: ${results.join(",")}`;
+        document.getElementById(`sainome${childId * 3 - 2}`).src = images[0];
+        document.getElementById(`sainome${childId * 3 - 1}`).src = images[1];
+        document.getElementById(`sainome${childId * 3}`).src = images[2];
+        document.getElementById(`counter${childId}`).innerHTML = saikoroCount+"回目"
 
         //役判定と表示
         let yaku = 役判定(results);
-        document.getElementById("yaku").innerHTML = "役:"+yaku;  
+        document.getElementById(`yaku${childId}`).innerHTML = "役:"+yaku;  
 
         //役が出るか、3回振ってボタン無効
         if(yaku !== "役無し" || saikoroCount >= maxSaikoroCount){
-            document.getElementById("saikoroButton").disabled = true;
+            document.getElementById(`saikoroButton${childId}`).disabled = true;
             ChildSaikoroDone = true; 
         }
 
@@ -113,9 +114,9 @@ function SaikoroNew(){
 
         //結果の表示
         document.getElementById("kekkaNew").innerHTML = `サイコロの結果: ${results.join(",")}`;
-        document.getElementById("sainome4").src = images[0];
-        document.getElementById("sainome5").src = images[1];
-        document.getElementById("sainome6").src = images[2];
+        document.getElementById("sainomeP1").src = images[0];
+        document.getElementById("sainomeP2").src = images[1];
+        document.getElementById("sainomeP3").src = images[2];
         document.getElementById("counterNew").innerHTML = saikoroCountNew+"回目"
 
         //役判定と表示
@@ -181,8 +182,6 @@ function 役判定(results){
     }
 }
 
-console.log(yaku);
-
 function 役の強さ(yaku){
     switch(yaku){
         case "ピンゾロ":return 14; 
@@ -209,7 +208,7 @@ function 勝敗判定(){
     let betAmount = getBetAmount();
 
     //役を取得
-    const childYaku = document.getElementById("yaku").innerHTML.replace('役:','');
+    const childYaku = document.getElementById(`yaku${childId}`).innerHTML.replace('役:','');
     const parentYaku = document.getElementById("yakuNew").innerHTML.replace('役:','');
 
     //役を数値変換
