@@ -1,4 +1,4 @@
-let saikoroCount = 0;
+let saikoroCounts = {};
 const maxSaikoroCount = 3;
 
 let saikoroCountNew = 0;
@@ -62,8 +62,12 @@ function getBetAmount(){
 
 //子のサイコロ
 function Saikoro(childId){
-    if(saikoroCount < maxSaikoroCount){
-        saikoroCount++;
+    if(!saikoroCounts[childId]){
+        saikoroCounts[childId] = 0; //初回でカウント初期化
+    }
+
+    if(saikoroCounts[childId] < maxSaikoroCount){
+        saikoroCounts[childId]++;
         let results = [];
         let images = [];
         
@@ -79,14 +83,14 @@ function Saikoro(childId){
         document.getElementById(`sainome${childId * 3 - 2}`).src = images[0];
         document.getElementById(`sainome${childId * 3 - 1}`).src = images[1];
         document.getElementById(`sainome${childId * 3}`).src = images[2];
-        document.getElementById(`counter${childId}`).innerHTML = saikoroCount+"回目"
+        document.getElementById(`counter${childId}`).innerHTML = saikoroCounts[childId]+"回目"
 
         //役判定と表示
         let yaku = 役判定(results);
         document.getElementById(`yaku${childId}`).innerHTML = "役:"+yaku;  
 
         //役が出るか、3回振ってボタン無効
-        if(yaku !== "役無し" || saikoroCount >= maxSaikoroCount){
+        if(yaku !== "役無し" || saikoroCounts[childId] >= maxSaikoroCount){
             document.getElementById(`saikoroButton${childId}`).disabled = true;
             ChildSaikoroDone = true; 
         }
@@ -135,13 +139,6 @@ function SaikoroNew(){
             document.getElementById("resetButton").disabled = false;
         }
     }
-}
-
-if (saikoroCount >= maxSaikoroCount) {
-    document.getElementById("saikoroButton").disabled = true;
-}
-if (saikoroCountNew >= maxSaikoroCountNew) {
-    document.getElementById("saikoroButtonNew").disabled = true;
 }
 
 
@@ -290,7 +287,7 @@ function 勝敗判定(){
 
 function resetGame(){
     //振った回数をリセット
-    saikoroCount = 0;
+    saikoroCount = 0;   //変更予定：for文ですべての子のサイコロのカウントを０に
     saikoroCountNew = 0;
     //ボタンの無効を無効化
     ChildSaikoroDone = false;
