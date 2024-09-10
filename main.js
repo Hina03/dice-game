@@ -201,26 +201,21 @@ function 役の強さ(yaku){
     }
 }
 
-function 勝敗判定(numChild){
+function 勝敗判定(){
     //賭け金取得
     let betAmounts = [];
-
-    for(let i=1; i <= numChild; i++){
+    for(let i = 1; i <= childCount; i++){
         let betAmount = getBetAmount(i);
-        if(betAmount !== null){
-            betAmounts.push(betAmount);
-        }else{
-            console.error(`Bet amount for child ${i} could not be retrieved.`);
-        }
+        betAmounts.push(betAmount);
     }
 
     console.log('All bet amounts:', betAmounts);
 
-    for(let i = 0; i < numChild; i++){
-        let betAmount = betAmounts[i];
+    for(let i = 1; i <= childCount; i++){
+        let betAmount = betAmounts[i - 1];
 
         //役を取得
-        const childYaku = document.getElementById(`yaku${childId}`).innerHTML.replace('役:','');
+        const childYaku = document.getElementById(`yaku${i}`).innerHTML.replace('役:','');
         const parentYaku = document.getElementById("yakuP").innerHTML.replace('役:','');
 
         //役を数値変換
@@ -296,7 +291,7 @@ function 勝敗判定(numChild){
         childGold += childGoldChange;
         parentGold += parentGoldChange;
 
-        document.getElementById("childGold").innerHTML = `ゼニー: ${childGold}(${childGoldChange >= 0 ? '+' : ''}${childGoldChange})`;
+        document.getElementById(`childGold${i}`).innerHTML = `ゼニー: ${childGold}(${childGoldChange >= 0 ? '+' : ''}${childGoldChange})`;
         document.getElementById("parentGold").innerHTML = `ゼニー: ${parentGold}(${parentGoldChange >= 0 ? '+' : ''}${parentGoldChange})`;
     }
 }
