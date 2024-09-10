@@ -33,7 +33,7 @@ function addChild(){
             <p id="yaku${childCount}"></p>
             <p id="counter${childCount}"></p>
             <p id="childGold${childCount}">ゼニー: 1000</p>
-            <p id="bet${childCount}">ベット</p>
+            <p id="result${childCount}"></p>
             
         <h2>ベット</h2>
             <p>ゼニー: <input type="number" id="betAmount${childCount}" value="100" min="1"></p>
@@ -255,7 +255,7 @@ function 勝敗判定(){
                 childGoldChange += betAmount;
                 parentGoldChange -= betAmount;
             }
-            document.getElementById("result").innerHTML = "子の勝ち";
+            document.getElementById(`result${i}`).innerHTML = "勝ち";
         } else { //親の勝ち
             if(childValue == 0){    //子がヒフミ
                 if(parentValue == 14){  //親ピンゾロ
@@ -284,7 +284,7 @@ function 勝敗判定(){
                 childGoldChange -= betAmount;
                 parentGoldChange += betAmount;
             }
-            document.getElementById("result").innerHTML = "親の勝ち";
+            document.getElementById(`result${i}`).innerHTML = "負け";
         }
 
         //所持金の更新
