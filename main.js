@@ -1,8 +1,8 @@
 let saikoroCounts = {};
 const maxSaikoroCount = 3;
 
-let saikoroCountNew = 0;
-const maxSaikoroCountNew = 3;
+let saikoroCountP = 0;
+const maxSaikoroCountP = 3;
 
 let ChildSaikoroDone = false;   //子と親が振り終わったかどうか
 let ParentSaikoroDone = false;
@@ -13,8 +13,8 @@ let parentGold = 1000;;
 let beforeChildGold = childGold;
 let beforeParentGold = parentGold;
 
-let childCount = 0;
-let childDoneCount = 0;
+let childCount = 0;     //子の人数カウント
+let childDoneCount = 0;     //子の振り終わった人数カウント
 
 function addChild(){
     childCount++;
@@ -54,9 +54,9 @@ function deleteChild(){
     childCount--;
 }
 
-function getBetAmount(){
+function getBetAmount(childId){
     //賭け金の取得
-    let betAmount = parseInt(document.getElementById(`betAmount${childCount}`).value);
+    let betAmount = parseInt(document.getElementById(`betAmount${childId}`).value);
     //賭け金が無効な場合（負の値とか）の処理
     return isNaN(betAmount) || betAmount <= 0 ? 100 :betAmount;
 }
@@ -105,8 +105,8 @@ function Saikoro(childId){
 
 //親のサイコロ
 function SaikoroNew(){
-    if(saikoroCountNew < maxSaikoroCountNew && childDoneCount >= childCount){
-        saikoroCountNew++;
+    if(saikoroCountP < maxSaikoroCountP && childDoneCount >= childCount){
+        saikoroCountP++;
         let results = [];
         let images = [];
 
@@ -122,20 +122,20 @@ function SaikoroNew(){
         document.getElementById("sainomeP1").src = images[0];
         document.getElementById("sainomeP2").src = images[1];
         document.getElementById("sainomeP3").src = images[2];
-        document.getElementById("counterNew").innerHTML = saikoroCountNew+"回目"
+        document.getElementById("counterNew").innerHTML = saikoroCountP+"回目"
 
         //役判定と表示
         let yaku = 役判定(results);
         document.getElementById("yakuNew").innerHTML = "役:"+yaku;  
 
         //役が出るか、3回振ってボタンを無効化
-        if(yaku !== "役無し" || saikoroCountNew >= maxSaikoroCountNew){
+        if(yaku !== "役無し" || saikoroCountP >= maxSaikoroCountP){
             document.getElementById("saikoroButtonNew").disabled = true;
             ParentSaikoroDone = true;
         }
         
         //勝敗判定
-        if(ChildSaikoroDone && ParentSaikoroDone ){
+        if(childDoneCount >= childCount && ParentSaikoroDone ){
             勝敗判定();
             document.getElementById("resetButton").disabled = false;
         }
@@ -203,7 +203,7 @@ function 役の強さ(yaku){
 
 function 勝敗判定(childId){
     //賭け金取得
-    let betAmount = getBetAmount();
+    let betAmount = getBetAmount(childId);
 
     //役を取得
     const childYaku = document.getElementById(`yaku${childId}`).innerHTML.replace('役:','');
@@ -289,7 +289,7 @@ function 勝敗判定(childId){
 function resetGame(){
     //振った回数をリセット
     saikoroCount = 0;   //変更予定：for文ですべての子のサイコロのカウントを０に
-    saikoroCountNew = 0;
+    saikoroCountP = 0;
     //ボタンの無効を無効化
     ChildSaikoroDone = false;
     ParentSaikoroDone = false;
