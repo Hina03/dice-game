@@ -1,3 +1,10 @@
+/*今後の機能追加
+・ポップアップなどで人数、所持金を入力できるようにする？
+・所持金を保持したまま親を変更できるように
+・CSS
+・（NFC）
+ */
+
 let saikoroCounts = [];
 const maxSaikoroCount = 3;
 
@@ -304,7 +311,7 @@ function 勝敗判定(){
                 changes += ", ";
             }
     }
-    
+
     document.getElementById("parentGold").innerHTML = `ゼニー: ${parentGold}(${changes})`;
 }
 
