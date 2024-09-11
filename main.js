@@ -11,6 +11,8 @@ let childGold = 1000;
 let parentGold = 1000;
 
 let childGolds = [];
+let PGoldsChange = [];
+let changes = "";
 
 let childCount = 0;     //子の人数カウント
 let childDoneCount = 0;     //子の振り終わった人数カウント
@@ -202,16 +204,10 @@ function 役の強さ(yaku){
     }
 }
 
-/*次回memo
-掛け金のやり取りを修正する
-・親に各々の金額のやりとりを表示
-・その累計額を加算・減算して金額表示
-*/
-
-
 function 勝敗判定(){
     //賭け金取得
     let betAmounts = [];
+
     for(let i = 1; i <= childCount; i++){
         let betAmount = getBetAmount(i);
         betAmounts.push(betAmount);
@@ -296,10 +292,20 @@ function 勝敗判定(){
         //所持金の更新
         childGolds[i - 1] += childGoldChange;
         parentGold += parentGoldChange;
+        PGoldsChange.push(parentGoldChange);   
 
         document.getElementById(`childGold${i}`).innerHTML = `ゼニー: ${childGolds[i - 1]}(${childGoldChange >= 0 ? '+' : ''}${childGoldChange})`;
-        document.getElementById("parentGold").innerHTML = `ゼニー: ${parentGold}(${parentGoldChange >= 0 ? '+' : ''}${parentGoldChange})`;
+        
     }
+
+    for(let j = 0; j < PGoldsChange.length; j++){
+            changes += `${PGoldsChange[j] >= 0 ? '+' : ''}${PGoldsChange[j]}`;
+            if(j < childCount-1){
+                changes += ", ";
+            }
+    }
+    
+    document.getElementById("parentGold").innerHTML = `ゼニー: ${parentGold}(${changes})`;
 }
 
 function resetGame(){
@@ -325,6 +331,8 @@ function resetGame(){
     document.getElementById("counterP").innerHTML = "";
     document.getElementById("result").innerHTML = "";
 
+    changes = "";
+    PGoldsChange = [];
     document.getElementById("parentGold").innerHTML = `ゼニー: ${parentGold}`;
 
 }
