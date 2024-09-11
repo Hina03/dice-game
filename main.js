@@ -7,11 +7,10 @@ const maxSaikoroCountP = 3;
 let ChildSaikoroDone = false;   //子と親が振り終わったかどうか
 let ParentSaikoroDone = false;
 
-let childGold = 1000;;
-let parentGold = 1000;;
+let childGold = 1000;
+let parentGold = 1000;
 
-let beforeChildGold = childGold;
-let beforeParentGold = parentGold;
+let childGolds = [];
 
 let childCount = 0;     //子の人数カウント
 let childDoneCount = 0;     //子の振り終わった人数カウント
@@ -38,6 +37,8 @@ function addChild(){
         <h2>ベット</h2>
             <p>ゼニー: <input type="number" id="betAmount${childCount}" value="100" min="1"></p>
     `;
+
+    childGolds.push(1000);
 
     //子を<id="childContainer">に追加
     document.getElementById('childContainer').appendChild(childDiv);
@@ -201,6 +202,13 @@ function 役の強さ(yaku){
     }
 }
 
+/*次回memo
+掛け金のやり取りを修正する
+・親に各々の金額のやりとりを表示
+・その累計額を加算・減算して金額表示
+*/
+
+
 function 勝敗判定(){
     //賭け金取得
     let betAmounts = [];
@@ -208,8 +216,6 @@ function 勝敗判定(){
         let betAmount = getBetAmount(i);
         betAmounts.push(betAmount);
     }
-
-    console.log('All bet amounts:', betAmounts);
 
     for(let i = 1; i <= childCount; i++){
         let betAmount = betAmounts[i - 1];
@@ -288,10 +294,10 @@ function 勝敗判定(){
         }
 
         //所持金の更新
-        childGold += childGoldChange;
+        childGolds[i - 1] += childGoldChange;
         parentGold += parentGoldChange;
 
-        document.getElementById(`childGold${i}`).innerHTML = `ゼニー: ${childGold}(${childGoldChange >= 0 ? '+' : ''}${childGoldChange})`;
+        document.getElementById(`childGold${i}`).innerHTML = `ゼニー: ${childGolds[i - 1]}(${childGoldChange >= 0 ? '+' : ''}${childGoldChange})`;
         document.getElementById("parentGold").innerHTML = `ゼニー: ${parentGold}(${parentGoldChange >= 0 ? '+' : ''}${parentGoldChange})`;
     }
 }
@@ -303,7 +309,8 @@ function resetGame(){
         document.getElementById(`kekka${i}`).innerHTML = "";
         document.getElementById(`yaku${i}`).innerHTML = "";
         document.getElementById(`counter${i}`).innerHTML = "";
-        document.getElementById(`childGold${i}`).innerHTML = `ゼニー: ${childGold}`;
+        document.getElementById(`childGold${i}`).innerHTML = `ゼニー: ${childGolds[i - 1]}`;
+        document.getElementById(`result${i}`).innerHTML = "";
     }
 
     saikoroCountP = 0;  //振った回数リセット
