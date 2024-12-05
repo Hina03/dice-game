@@ -3,6 +3,9 @@
 ・所持金を保持したまま親を変更できるように
 ・CSS
 ・（NFC）
+・関数をモジュール化してファイル分け
+・サイコロの画像を回転させられるように
+    →じんのルーレットと同じ感じでできそう、for文で乱数何回か表示
  */
 
 let saikoroCounts = [];
@@ -97,7 +100,7 @@ function Saikoro(childId){
         document.getElementById(`counter${childId}`).innerHTML = saikoroCounts[childId]+"回目"
 
         //役判定と表示
-        let yaku = 役判定(results);
+        let yaku = yakuHantei(results);
         document.getElementById(`yaku${childId}`).innerHTML = "役:"+yaku;  
 
         //役が出るか、3回振ってボタン無効
@@ -135,7 +138,7 @@ function SaikoroP(){
         document.getElementById("counterP").innerHTML = saikoroCountP+"回目"
 
         //役判定と表示
-        let yaku = 役判定(results);
+        let yaku = yakuHantei(results);
         document.getElementById("yakuP").innerHTML = "役:"+yaku;  
 
         //役が出るか、3回振ってボタンを無効化
@@ -146,18 +149,18 @@ function SaikoroP(){
         
         //勝敗判定
         if(childDoneCount >= childCount && ParentSaikoroDone ){
-            勝敗判定();
+            gameResult();
             document.getElementById("resetButton").disabled = false;
         }
     }
 }
 
 
-function 特殊役(array,elements){
+function spYaku(array,elements){
     return elements.every(elements => array.includes(elements));
 }
 
-function 役判定(results){
+function yakuHantei(results){
     let shigoro = [4,5,6];
     let hihumi = [1,2,3];
 
@@ -175,9 +178,9 @@ function 役判定(results){
         }else{
             return "6のアラシ"
         }
-    }else if(特殊役(results,shigoro)){
+    }else if(spYaku(results,shigoro)){
         return "シゴロ"
-    }else if(特殊役(results,hihumi)){
+    }else if(spYaku(results,hihumi)){
         return "ヒフミ"
     }else if(results[0] == results[1]){
         return results[2] 
@@ -190,7 +193,7 @@ function 役判定(results){
     }
 }
 
-function 役の強さ(yaku){
+function yakuStr(yaku){     //役の強さ
     switch(yaku){
         case "ピンゾロ":return 14; 
         case "6のアラシ":return 13;
@@ -211,7 +214,7 @@ function 役の強さ(yaku){
     }
 }
 
-function 勝敗判定(){
+function gameResult(){
     //賭け金取得
     let betAmounts = [];
 
@@ -228,8 +231,8 @@ function 勝敗判定(){
         const parentYaku = document.getElementById("yakuP").innerHTML.replace('役:','');
 
         //役を数値変換
-        let childValue = 役の強さ(childYaku);
-        let parentValue = 役の強さ(parentYaku);
+        let childValue = yakuStr(childYaku);
+        let parentValue = yakuStr(parentYaku);
 
         //変動額初期値
         let childGoldChange = 0;
